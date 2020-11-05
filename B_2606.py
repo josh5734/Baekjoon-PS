@@ -1,16 +1,15 @@
 
-
-def dfs(graph, start, visited):
-    global infected
+def dfs(graph, start, visited, infected):
     # 방문한 노드를 체크
     visited[start] = True
 
     for i in graph[start]:
         if not visited[i]:
             infected += 1
-            dfs(graph, i, visited)
+            dfs(graph, i, visited, infected)
 
 
+# main #
 if __name__ == "__main__":
     # n, m 입력받기
     n = int(input())
@@ -26,5 +25,5 @@ if __name__ == "__main__":
     visited = [False] * (n + 1)
     infected = 0
 
-    dfs(graph, 1, visited)
+    dfs(graph, 1, visited, infected)
     print(infected)
