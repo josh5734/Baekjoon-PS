@@ -26,7 +26,7 @@ if __name__ == "__main__":
     apt_info = [0 for i in range(n**2)]
     danzi = 1
 
-    # 아파타 정보 입력받기
+    # 아파트 정보 입력받기
     graph = []
     for i in range(n):
         graph.append(list(map(int, input())))
