@@ -8,10 +8,8 @@ if __name__ == "__main__":
     arr = []
     for i in range(k):
         arr.append(int(input()))
-
     start = 1
     end = max(arr)
-
     # 이진 탐색 수행
     result = 0
     while(start <= end):
@@ -21,7 +19,7 @@ if __name__ == "__main__":
         for x in arr:
             # 각 x에 대해 몇개로 잘릴 수 있는지 total에 합산
             if x >= mid:
-                total += int(x / mid)
+                total += x // mid
         # print(total)
         if total < n:
             end = mid - 1
