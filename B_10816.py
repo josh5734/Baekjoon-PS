@@ -15,6 +15,5 @@ if __name__ == "__main__":
     for num in numbers:
         # 해당 숫자가 arr에 없으면 같은 곳에 start, end가 생김 -> result = 0
         # 해당 숫자가 arr에 있으면 왼쪽에 start, 오른쪽에 end가 생김 -> result = end - start
-        start, end = (bisect_left(arr, num), bisect_right(arr, num))
-        result = end - start
+        result = bisect_right(arr, num) - bisect_left(arr, num)
         print(result, end=" ")
