@@ -22,5 +22,4 @@ if __name__ == "__main__":
         else:
             result = mid
             start = mid + 1
-
     print(result)
