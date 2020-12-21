@@ -5,6 +5,7 @@ import sys
 def dijkstra(start):
     q = []
     # 시작 노드로 가기 위한 최단 경로는 0으로 설정하여, 큐에 삽입
+    # 튜플 형태로 삽입하여 거리가 짧은 순으로 우선순위 큐 정렬
     heapq.heappush(q, (0, start))
     distance[start] = 0
 
