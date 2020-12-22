@@ -1,3 +1,4 @@
+# Using kruskal algorithm
 import sys
 
 
