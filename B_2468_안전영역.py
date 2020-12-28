@@ -1,5 +1,5 @@
 import copy
-from sys import *
+from sys import setrecursionlimit
 
 # 재귀 깊이를 설정해줌으로써 runtimeError를 방지해야함
 setrecursionlimit(10 ** 6)
