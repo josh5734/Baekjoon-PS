@@ -22,7 +22,7 @@ if __name__ == "__main__":
     # graph 정보
     graph = [[] for _ in range(n+1)]
     for _ in range(e):
-        a, b = map(int, input().split())
+        a, b = map(int, sys.stdin.readline().split())
         graph[a].append(b)
         graph[b].append(a)
 
