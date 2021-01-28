@@ -3,29 +3,19 @@ from itertools import permutations as p
 
 def calculate(op):
     # 연산자의 개수만큼 연산 시행
+    start = sequence[0]
     for i in range(n-1):
-        # 첫번째 값 설정
-        if i == 0:
-            if op[i] == '+':
-                start = sequence[i] + sequence[i+1]
-            elif op[i] == '-':
-                start = sequence[i] - sequence[i+1]
-            elif op[i] == '*':
-                start = sequence[i] * sequence[i+1]
-            else:
-                start = sequence[i] // sequence[i+1]
+        if op[i] == '+':
+            start += sequence[i+1]
+        elif op[i] == '-':
+            start -= sequence[i+1]
+        elif op[i] == '*':
+            start *= sequence[i+1]
         else:
-            if op[i] == '+':
-                start += sequence[i+1]
-            elif op[i] == '-':
-                start -= sequence[i+1]
-            elif op[i] == '*':
-                start *= sequence[i+1]
+            if start < 0:
+                start = ((start * -1) // sequence[i+1]) * -1
             else:
-                if start < 0:
-                    start = ((start * -1) // sequence[i+1]) * -1
-                else:
-                    start //= sequence[i+1]
+                start //= sequence[i+1]
     answer.append(start)
 
 
