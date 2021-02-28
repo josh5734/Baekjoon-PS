@@ -19,8 +19,7 @@ def bfs(distance, start, graph):
         q.extend(temp)
         count += 1
         if count == k:  # 거리가 k이면 현재 위치를 return
-            return q
-
+            return temp
     return -1
 
 
@@ -32,7 +31,7 @@ if __name__ == "__main__":
         sour, dest = map(int, sys.stdin.readline().split())
         graph[sour].append(dest)
     k_shortest = bfs(k, x, graph)
-    if k_shortest == -1:
+    if k_shortest == -1 or k_shortest == []:
         print(-1)
     else:
         for c in sorted(k_shortest):
