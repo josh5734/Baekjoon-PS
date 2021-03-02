@@ -40,14 +40,17 @@ if __name__ == "__main__":
     addWall = list(C(safetyZone, 3))  # 벽 3개를 세울 수 있는 모든 가능한 조합
 
     answer = []
-    for wall in addWall:  # 벽을 3개 세워본다.
+    for wall in addWall:
         testGraph = copy.deepcopy(graph)
-        for x, y in wall:
+        for x, y in wall:  # 벽을 3개 세워본다.
             testGraph[x][y] = 1
+
+        # bfs를 수행하면서 바이러스 전파
         for i in range(height):
             for j in range(width):
                 if testGraph[i][j] == 2:
                     bfs(i, j)
+        # 안전영역의 수 세기
         safety = 0
         for i in range(height):
             for j in range(width):
