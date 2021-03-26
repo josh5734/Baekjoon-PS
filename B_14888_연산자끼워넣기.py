@@ -11,11 +11,8 @@ def calculate(op):
             start -= sequence[i+1]
         elif op[i] == '*':
             start *= sequence[i+1]
-        else:
-            if start < 0:
-                start = ((start * -1) // sequence[i+1]) * -1
-            else:
-                start //= sequence[i+1]
+        else:  # 앞에서부터 계산하므로 0으로 나누는 경우는 없음
+            start = int(start/sequence[i+1])
     answer.append(start)
 
 
@@ -32,6 +29,7 @@ if __name__ == "__main__":
     answer = []
     # 모든 경우의 수에 대해 진행 / 중복 제외
     comb = set(list(p(ops)))
+    minV, maxV = int(1e10), -int(1e10)
     for op in comb:
         calculate(op)
 
