@@ -36,3 +36,35 @@ if __name__ == "__main__":
     # 최대, 최소 출력
     print(max(answer))
     print(min(answer))
+
+
+############## 풀이2 - DFS 쓰기 ################
+
+
+def calculateByDFS(root, count, plus, minus, multiply, divide):
+    if count == n-1:
+        result.append(root)
+
+    if plus > 0:
+        calculateByDFS(root+sequence[count+1],
+                       count+1, plus-1, minus, multiply, divide)
+    if minus > 0:
+        calculateByDFS(root-sequence[count+1],
+                       count+1, plus, minus-1, multiply, divide)
+    if multiply > 0:
+        calculateByDFS(root*sequence[count+1],
+                       count+1, plus, minus, multiply-1, divide)
+    if divide > 0:
+        calculateByDFS(int(root/sequence[count+1]),
+                       count+1, plus, minus, multiply, divide-1)
+
+
+result = []
+if __name__ == "__main__":
+    n = int(input())
+    sequence = list(map(int, input().split()))
+    plus, minus, multiply, divide = map(int, input().split())
+    minValue, maxValue = int(1e10), -int(1e10)
+    calculateByDFS(sequence[0], 0, plus, minus, multiply, divide)
+    print(max(result))
+    print(min(result))
