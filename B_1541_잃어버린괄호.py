@@ -1,15 +1,9 @@
-
-
-
-
-
-
-
 if __name__ == "__main__":
     text = input() 
     numbers = []
     ops = []
     temp = ""
+    # 숫자랑, 더하기빼기 분리   
     for i in range(len(text)):
         if text[i].isdigit():
             temp += text[i]
@@ -22,6 +16,7 @@ if __name__ == "__main__":
     result = numbers[0]
     cursor = 1
     temp = 0
+    # (-)를 만나면 (+)가 나오는 때는 계속 누적해서 뺀다. 
     while cursor < len(numbers):
         temp = numbers[cursor]
         if ops[cursor-1] == '-':
@@ -35,3 +30,5 @@ if __name__ == "__main__":
             result += numbers[cursor]
             cursor += 1    
     print(result)
+
+
