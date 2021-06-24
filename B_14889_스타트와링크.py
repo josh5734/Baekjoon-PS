@@ -1,12 +1,5 @@
 from itertools import combinations as cb
 
-
-
-
-
-
-
-
 N = int(input())
 people = [i for i in range(1,N+1)]
 power = [list(map(int, input().split())) for _ in range(N)]

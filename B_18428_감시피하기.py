@@ -2,7 +2,6 @@ import sys
 import copy
 from itertools import combinations as C
 
-
 def detect(x, y):
     studentDetection = False
     for i in range(4):
@@ -18,7 +17,6 @@ def detect(x, y):
             else:  # 범위에서 벗어나면 다른 방향 전환
                 break
     return studentDetection
-
 
 if __name__ == "__main__":
     n = int(input())

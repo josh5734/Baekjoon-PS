@@ -19,22 +19,6 @@ else:
         print(n, end = ' ')
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 '''
 ## 시간 초과 ##
 def findNGE(series, n):

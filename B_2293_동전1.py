@@ -1,3 +1,24 @@
+
+
+#########################################################3
+
+n, k = map(int, input().split())
+
+coins = [int(input()) for _ in range(n)]
+coins = list(set(coins))    # 중복 동전 제거
+coins.sort()    # 오름차순 정렬
+n = len(coins)
+
+# dp[i] = i번째 동전까지 써서 k원을 만드는 경우의 수
+# 다른 풀이 참고
+dp = [0 for _ in range(k+1)]
+dp[0] = 1 
+for c in coins:
+    for j in range(c, k+1):
+        dp[j] += dp[j-c]
+print(dp[k])
+
+
 '''
 # 시간, 메모리 제한??????
 # 원래 풀이
@@ -22,25 +43,4 @@ for i in range(2, n+1):
             else: dp[i][j] += dp[i-1][j - (value * t)]
 print(dp[n][k])
 '''
-
-
-
-#########################################################3
-
-n, k = map(int, input().split())
-
-coins = [int(input()) for _ in range(n)]
-coins = list(set(coins))    # 중복 동전 제거
-coins.sort()    # 오름차순 정렬
-n = len(coins)
-
-# dp[i] = i번째 동전까지 써서 k원을 만드는 경우의 수
-# 다른 풀이 참고
-dp = [0 for _ in range(k+1)]
-dp[0] = 1 
-for c in coins:
-    for j in range(c, k+1):
-        dp[j] += dp[j-c]
-print(dp[k])
-
 
