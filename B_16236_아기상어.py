@@ -1,82 +1,62 @@
 import sys
 from collections import deque
-import copy
 
-sys.setrecursionlimit(100000)
-
-
-def bfs(x, y, distance, fishes):
-    global size, eat
-    # 먹을 수 있는 물고기의 정보
-    eatable = list(filter(lambda x: x[0] < size, fishes))
-    if not eatable:
-        return distance
-    visited = [[False] * n for _ in range(n)]
+# bfs 탐색으로 먹을 수 있는 물고기들까지 거리를 구한다.
+def getSmallerFishes(start_x,start_y,size):
+    distance = [[0] * n for _ in range(n)]
     q = deque()
-    q.append((x, y))
-
-    g = []
-    for i in range(n):
-        g.append([int(1e9)] * n)
-    # 처음 아기 상어의 위치에 있는 값을 0으로 만든다.
-    g[x][y] = 0
-
-    candidate = []
+    visited = [[False]*n for _ in range(n)]
+    q.append((start_x,start_y))
+    visited[start_x][start_y] = True
+    
+    # 먹을 수 있는 물고기를 담는 리스트
+    eatable = []
     while q:
-        x, y = q.popleft()
-        visited[x][y] = True
-
+        curr_x, curr_y = q.popleft()
         for i in range(4):
-            nx, ny = x+dx[i], y+dy[i]
-            if 0 <= nx < n and 0 <= ny < n and graph[nx][ny] <= size:
-                if not visited[nx][ny]:
-                    q.append((nx, ny))
-                    g[nx][ny] = g[x][y] + 1
+            next_x, next_y = curr_x + dx[i], curr_y + dy[i]
+            # 공간 안에 있고 아직 방문하지 않은 물고기에 대해 탐색
+            if  0 <= next_x < n and 0 <= next_y < n and not visited[next_x][next_y]:
+                # 자신보다 사이즈가 작거나 같은 물고기는 지나갈 수 있음
+                if graph[next_x][next_y] <= size:
+                    q.append((next_x,next_y))
+                    visited[next_x][next_y] = True
+                    distance[next_x][next_y] = distance[curr_x][curr_y] + 1
+                    if graph[next_x][next_y] < size and graph[next_x][next_y] != 0:
+                        eatable.append((next_x,next_y, distance[next_x][next_y]))
 
-                    # 잡아 먹을 수 있다면
-                    for fish in eatable:
-                        if nx == fish[1] and ny == fish[2] and fish[3]:
-                            candidate.append(fish)
+    # 거리가 가까운 순, 가장 위쪽에 있는 순, 가장 왼쪽에 있는 순
+    # pop할때 시간복잡도 고려하기 위해 역순 정렬
+    return sorted(eatable, key= lambda x : (-x[2], -x[0], -x[1]))
 
-    if candidate:
-        f = sorted(candidate, key=lambda x: (g[x[1]][x[2]], x[1], x[2]))[0]
-        nx, ny = f[1], f[2]
-        eat += 1
-        if eat == size:
-            size += 1
-            eat = 0
-        distance += g[nx][ny]
-        f[3] = False
+# 공간의 크기 n
+n = int(input())
+answer = 0 
 
-        return bfs(nx, ny, distance, fishes)
-    else:
-        return distance
+# 공간에 존재하는 물고기의 정보와 아기 상어 위치 얻기
+graph = [[0] * n for _ in range(n)]
+start_x, start_y, size = 0, 0, 2 # 최초 물고기 사이즈 = 2
+for i in range(n):
+    row = list(map(int, sys.stdin.readline().split()))
+    for j in range(n):
+        graph[i][j] = row[j]
+        if row[j] == 9:
+            start_x, start_y = i,j
 
+# 먹을 수 있는 물고기의 위치 정보 얻기
+dx, dy = [1,-1,0,0],[0,0,1,-1]
 
-if __name__ == "__main__":
-    n = int(input())
-
-    loc, size = (), 2  # 처음 아기 상어의 위치, 사이즈
-
-    fishes = []  # 물고기들의 정보
-
-    graph = []
-    for i in range(n):
-        line = list(map(int, sys.stdin.readline().split()))
-        for j in range(n):
-            # 아기 상어의 위치
-            if line[j] == 9:
-                loc = (i, j)
-            # 물고기들의 크기, 위치 정보
-            elif line[j] != 0:
-                fishes.append([line[j], i, j, True])
-        graph.append(line)
-    graph[loc[0]][loc[1]] = 0
-
-    dx, dy = [-1, 1, 0, 0], [0, 0, -1, 1]  # 상어가 움직일 수 있는 방향
-    eat = 0  # 최초 물고기를 잡아 먹은 횟수
-    distance = 0  # 움직인 시간
-
-    start_x, start_y = loc[0], loc[1]
-    answer = bfs(start_x, start_y, distance, fishes)
-    print(answer)
+# 엄마 상어가 필요할 때 까지 반복
+count = 0
+while True:
+    fishToEat = getSmallerFishes(start_x,start_y,size)
+    if len(fishToEat) == 0: break
+    nx, ny, dist = fishToEat.pop()
+    answer += dist # 이동 거리 더하기
+    graph[start_x][start_y], graph[nx][ny] = 0, 0
+    start_x, start_y = nx, ny # 물고기 위치 변화
+    count += 1
+    if count == size: # 사이즈와 같은 수만큼 물고기를 먹으면 사이즈 증가
+        size += 1
+        count = 0
+print(answer)
