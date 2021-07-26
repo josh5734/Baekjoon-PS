@@ -38,7 +38,7 @@ for _ in range(v):
 # 트리의 지름 구하기
 # 1. 트리에서 임의의 정점 x를 찾는다.
 # 2. 정점 x에서 가장 먼 정점 y를 찾는다.
-# 3. 정점 yㅛ에서 가장 먼 정점 z를 찾는다.
+# 3. 정점 y에서 가장 먼 정점 z를 찾는다.
 randomNode, maxDistance = getDistance(1)
 randomNode, maxDistance = getDistance(randomNode)
 print(maxDistance)
