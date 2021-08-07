@@ -1,49 +1,40 @@
-from collections import defaultdict
-from itertools import combinations as cb
+from itertools import combinations as C
 import sys
 
+# 지금 배운 알파벳으로 몇 단어를 읽을 수 있는지 리턴하는 함수
+def countReadableWords(words, learned):
+	count = 0
+	for word in words:
+		canRead = True
+		for w in word:
+            # 배우지 않은 알파벳이 있다면 False
+			if learned[ord(w)] == False:
+				canRead = False
+				break
+		if canRead:
+			count += 1
+	return count
 
-def isIncluded(parent, child):
-    for x in child:
-        if x not in parent:
-            return False
-    return True
+n, k = map(int, input().split())
+answer = 0
+# a,n,t,i,c는 반드시 가르쳐야 함
+alphabet = set(chr(i) for i in range(97, 123)) - {'a','n','t','i','c'}
+words = [sys.stdin.readline().rstrip()[4:-4] for _ in range(n)]
 
-
-if __name__ == "__main__":
-    n, k = map(int, input().split())
-
-    alphabet = []
-    for i in range(97, 97+26):
-        if chr(i) not in ['a', 'n', 't', 'i', 'c']:
-            alphabet.append(chr(i))
-
-    word_list = []
-    for _ in range(n):
-        word = sys.stdin.readline().rstrip()
-        word = list(filter(lambda x: x not in [
-                    'a', 'n', 't', 'i', 'c'], word))
-        word_list.append(word)
-
-    check_alphabet = []
-    for a in alphabet:
-        for w in word_list:
-            if a in w:
-                check_alphabet.append(a)
-
-    if k > 5:  # 최소 a,n,t,i,c는 배워야 함
-        if len(check_alphabet) <= k-5:
-            print(n)
-        else:
-            knownAlphabet = list(cb(check_alphabet, k-5))
-            answer = 0
-            for ka in knownAlphabet:
-                canRead = 0
-                for w in word_list:
-                    if(isIncluded(ka, w)):
-                        canRead += 1
-                if canRead > answer:
-                    answer = canRead
-            print(answer)
-    else:
-        print(0)
+if k >= 5:
+	learned = [False] * (150)
+	for x in {'a','n','t','i','c'}:
+		learned[ord(x)] = True
+	# 남은 알파벳 중에서 k-5개를 선택해본다.
+	for teach in list(C(alphabet, k-5)):
+		for t in teach:
+			learned[ord(t)] = True
+		count = countReadableWords(words, learned)
+		if count > answer:
+			answer = count
+        # 배운 단어 초기화
+        for t in teach:
+			learned[ord(t)] = False
+	print(answer)
+else:
+	print(0)
