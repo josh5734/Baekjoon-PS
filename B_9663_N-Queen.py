@@ -1,20 +1,24 @@
-
-def available(x):
-    for i in range(1, x):
-        if row[x] == row[i] or abs(row[x]-row[i]) == x - i:
-            return False
-    return True
-
-
-def nqueen(cnt):
-
-
-if __name__ == "__main__":
-    # 체스판 크기
-    n = int(input())
-    answer = 0
-
-    # 각 행을 나타내는 배열 row
-    row = [0 for _ in range(16)]
-
-    nqueen(1)
+def backTracking(rowPos):
+    global answer  
+    
+    # 퀸을 모두 배치했다면 끝
+    if rowPos == n:
+        answer += 1
+        return
+    
+    for col in range(n):
+        flag = True
+        for row in range(rowPos):
+            if queenLocation[row] == col or rowPos - row == abs(col - queenLocation[row]):
+                flag = False
+                break
+        if flag:
+            queenLocation[rowPos] = col
+            backTracking(rowPos + 1)
+    
+n = int(input())
+answer = 0
+# 각 row마다 queen이 위치하는 인덱스를 저장하는 리스트
+queenLocation = [0] * n
+backTracking(0)
+print(answer)
