@@ -45,18 +45,21 @@ from bisect import bisect_left
 input = sys.stdin.readline
 
 
-# target과 가장 가까운 숫자의 인덱스를 리턴
-def findClosestIndex(plus, target):
-    idx = bisect_left(plus, target)
-    if idx == len(plus):
-        return idx - 1
-    elif plus[idx] == target:
-        return idx
-    elif idx > 0:
-        j = idx -1
-        if plus[idx] - target > target - plus[j]:
-            return j
-    return idx
+# target과 가장 가까운 숫자를 리턴
+def findClosestNum(array, target):
+    index = bisect_left(array, target)
+    if index == 0:
+        return array[index]
+    
+    if index == len(array):
+        return array[-1]
+
+    left = array[index-1]
+    right = array[index]
+
+    if target-left < right - target:
+        return left
+    return right
 
 answer = []
 n = int(input())
@@ -91,10 +94,10 @@ else:
             answer = plus[:2]
 
     for m in minus:
-        closestIndex = findClosestIndex(plus, -m)
-        tempSum = abs(m + plus[closestIndex])
+        closestNum = findClosestNum(plus, -m)
+        tempSum = abs(m + closestNum)
         if tempSum < minSum:
             minSum = tempSum
-            answer = [m, plus[closestIndex]]
+            answer = [m, closestNum]
 print(*answer)
 '''
