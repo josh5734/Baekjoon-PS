@@ -16,7 +16,11 @@ for i in range(len(facility)):
     
 # 가장 긴 구간을 k등분해나간다.
 for _ in range(m):
-    longest, divided = hq.heappop(distance)
+    if n == 0:
+        longest, divided = -l, 1
+    else:
+        longest, divided = hq.heappop(distance)
+
     # 등분하기 전 원래 거리값을 k등분으로 해줘야 한다.
     longest = -longest * divided
     hq.heappush(distance, ((-longest / (divided +1)), divided + 1))

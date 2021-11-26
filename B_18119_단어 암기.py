@@ -18,6 +18,7 @@ for i in range(n):
 
 # knowingAlp[i] = i번째 알파벳을 알고 있는지의 여부, 1 = 알고있음
 knowingAlp = (1 << 26) - 1
+
 for _ in range(m):
     o, x = input().split()
     idx = ord(x) - 97
